@@ -3,7 +3,7 @@ name: Build Sujeet Object Scanner
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -12,6 +12,10 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: SujeetObjectScanner_Android_Project/SujeetObjectScanner
 
     steps:
       - name: Checkout project
@@ -22,14 +26,12 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-          cache: gradle
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
       - name: Install Android SDK
-        run: |
-          sdkmanager "platforms;android-36" "build-tools;36.0.0" "platform-tools"
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
 
       - name: Build APK
         run: |
@@ -40,4 +42,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: SujeetObjectScanner-APK
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: SujeetObjectScanner_Android_Project/SujeetObjectScanner/app/build/outputs/apk/debug/app-debug.apk
